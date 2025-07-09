@@ -1,0 +1,163 @@
+version: '3.8'
+
+services:
+  # Main Services
+  api-gateway:
+    build: ./services/api-gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - auth-service
+      - file-service
+      - jenkins-service
+      - kubernetes-service
+      - terraform-service
+      - websocket-service
+    environment:
+      - AUTH_SERVICE_URL=http://auth-service:8081
+      - FILE_SERVICE_URL=http://file-service:8082
+      - JENKINS_SERVICE_URL=http://jenkins-service:8083
+      - KUBERNETES_SERVICE_URL=http://kubernetes-service:8084
+      - TERRAFORM_SERVICE_URL=http://terraform-service:8085
+      - WEBSOCKET_SERVICE_URL=http://websocket-service:8086
+    networks:
+      - devops-network
+
+  # Authentication Service
+  auth-service:
+    build: ./services/auth
+    ports:
+      - "8081:8081"
+    environment:
+      - DB_HOST=auth-db
+      - DB_PORT=5432
+      - DB_NAME=auth
+      - DB_USER=postgres
+      - DB_PASSWORD=secret
+      - JWT_SECRET=your-secret-key
+    depends_on:
+      - auth-db
+    networks:
+      - devops-network
+
+  # File Management Service
+  file-service:
+    build: ./services/file-service
+    ports:
+      - "8082:8082"
+    volumes:
+      - workspace-data:/workspace
+    environment:
+      - DB_HOST=file-db
+      - DB_PORT=27017
+      - STORAGE_PATH=/workspace
+    depends_on:
+      - file-db
+    networks:
+      - devops-network
+
+  # WebSocket Service
+  websocket-service:
+    build: ./services/websocket
+    ports:
+      - "8086:8086"
+    environment:
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - redis
+    networks:
+      - devops-network
+
+  # Jenkins Integration Service
+  jenkins-service:
+    build: ./services/jenkins
+    ports:
+      - "8083:8083"
+    environment:
+      - JENKINS_URL=http://jenkins:8080
+      - JENKINS_USER=admin
+      - JENKINS_TOKEN=secret
+    networks:
+      - devops-network
+
+  # Kubernetes Management Service
+  kubernetes-service:
+    build: ./services/kubernetes
+    ports:
+      - "8084:8084"
+    volumes:
+      - ~/.kube:/root/.kube
+    environment:
+      - KUBECONFIG=/root/.kube/config
+    networks:
+      - devops-network
+
+  # Terraform Service
+  terraform-service:
+    build: ./services/terraform
+    ports:
+      - "8085:8085"
+    volumes:
+      - terraform-data:/terraform
+    environment:
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+    networks:
+      - devops-network
+
+  # Databases
+  auth-db:
+    image: postgres:14-alpine
+    environment:
+      - POSTGRES_DB=auth
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=secret
+    volumes:
+      - auth-db-data:/var/lib/postgresql/data
+    networks:
+      - devops-network
+
+  file-db:
+    image: mongo:5
+    volumes:
+      - file-db-data:/data/db
+    networks:
+      - devops-network
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - devops-network
+
+  # Monitoring
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - devops-network
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    depends_on:
+      - prometheus
+    networks:
+      - devops-network
+
+volumes:
+  auth-db-data:
+  file-db-data:
+  workspace-data:
+  terraform-data:
+
+networks:
+  devops-network:
+    driver: bridge
