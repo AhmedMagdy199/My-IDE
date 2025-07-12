@@ -13,6 +13,7 @@ const Prometheus = lazy(() => import('@/pages/Prometheus'));
 const Ansible = lazy(() => import('@/pages/Ansible'));
 const ArgoCD = lazy(() => import('@/pages/ArgoCD'));
 const GitHubActions = lazy(() => import('@/pages/GitHubActions'));
+const Jenkins = lazy(() => import('@/pages/Jenkins'));
 const Monitoring = lazy(() => import('@/pages/Monitoring'));
 const Database = lazy(() => import('@/pages/Database'));
 const Security = lazy(() => import('@/pages/Security'));
@@ -34,6 +35,7 @@ export const router = createBrowserRouter([
       { path: 'ansible/*', element: <Ansible /> },
       { path: 'argocd/*', element: <ArgoCD /> },
       { path: 'github-actions/*', element: <GitHubActions /> },
+      { path: 'jenkins/*', element: <Jenkins /> },
       { path: 'monitoring/*', element: <Monitoring /> },
       { path: 'database/*', element: <Database /> },
       { path: 'security/*', element: <Security /> },
