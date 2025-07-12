@@ -10,6 +10,7 @@ const Terminal = lazy(() => import('@/pages/Terminal'));
 const Kubernetes = lazy(() => import('@/pages/Kubernetes'));
 const Terraform = lazy(() => import('@/pages/Terraform'));
 const Prometheus = lazy(() => import('@/pages/Prometheus'));
+const Grafana = lazy(() => import('@/pages/Grafana'));
 const Ansible = lazy(() => import('@/pages/Ansible'));
 const ArgoCD = lazy(() => import('@/pages/ArgoCD'));
 const GitHubActions = lazy(() => import('@/pages/GitHubActions'));
@@ -34,6 +35,7 @@ export const router = createBrowserRouter([
       { path: 'kubernetes/*', element: <Kubernetes /> },
       { path: 'terraform/*', element: <Terraform /> },
       { path: 'prometheus/*', element: <Prometheus /> },
+      { path: 'grafana/*', element: <Grafana /> },
       { path: 'ansible/*', element: <Ansible /> },
       { path: 'argocd/*', element: <ArgoCD /> },
       { path: 'github-actions/*', element: <GitHubActions /> },
