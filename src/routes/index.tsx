@@ -14,6 +14,7 @@ const Ansible = lazy(() => import('@/pages/Ansible'));
 const ArgoCD = lazy(() => import('@/pages/ArgoCD'));
 const GitHubActions = lazy(() => import('@/pages/GitHubActions'));
 const Jenkins = lazy(() => import('@/pages/Jenkins'));
+const Consul = lazy(() => import('@/pages/Consul'));
 const Vault = lazy(() => import('@/pages/Vault'));
 const Monitoring = lazy(() => import('@/pages/Monitoring'));
 const Database = lazy(() => import('@/pages/Database'));
@@ -37,6 +38,7 @@ export const router = createBrowserRouter([
       { path: 'argocd/*', element: <ArgoCD /> },
       { path: 'github-actions/*', element: <GitHubActions /> },
       { path: 'jenkins/*', element: <Jenkins /> },
+      { path: 'consul/*', element: <Consul /> },
       { path: 'vault/*', element: <Vault /> },
       { path: 'monitoring/*', element: <Monitoring /> },
       { path: 'database/*', element: <Database /> },
