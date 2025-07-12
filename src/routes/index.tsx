@@ -4,6 +4,7 @@ import { lazy } from 'react';
 
 const Dashboard = lazy(() => import('@/pages/Dashboard'));
 const Cloud = lazy(() => import('@/pages/Cloud'));
+const Docker = lazy(() => import('@/pages/Docker'));
 const Git = lazy(() => import('@/pages/Git'));
 const Terminal = lazy(() => import('@/pages/Terminal'));
 const Kubernetes = lazy(() => import('@/pages/Kubernetes'));
@@ -23,6 +24,7 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: <Dashboard /> },
       { path: 'cloud/*', element: <Cloud /> },
+      { path: 'docker/*', element: <Docker /> },
       { path: 'git/*', element: <Git /> },
       { path: 'terminal/*', element: <Terminal /> },
       { path: 'kubernetes/*', element: <Kubernetes /> },
