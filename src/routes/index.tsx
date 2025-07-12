@@ -12,6 +12,7 @@ const Terraform = lazy(() => import('@/pages/Terraform'));
 const Prometheus = lazy(() => import('@/pages/Prometheus'));
 const Grafana = lazy(() => import('@/pages/Grafana'));
 const Ansible = lazy(() => import('@/pages/Ansible'));
+const ELK = lazy(() => import('@/pages/ELK'));
 const ArgoCD = lazy(() => import('@/pages/ArgoCD'));
 const GitHubActions = lazy(() => import('@/pages/GitHubActions'));
 const Jenkins = lazy(() => import('@/pages/Jenkins'));
@@ -37,6 +38,7 @@ export const router = createBrowserRouter([
       { path: 'prometheus/*', element: <Prometheus /> },
       { path: 'grafana/*', element: <Grafana /> },
       { path: 'ansible/*', element: <Ansible /> },
+      { path: 'elk/*', element: <ELK /> },
       { path: 'argocd/*', element: <ArgoCD /> },
       { path: 'github-actions/*', element: <GitHubActions /> },
       { path: 'jenkins/*', element: <Jenkins /> },
